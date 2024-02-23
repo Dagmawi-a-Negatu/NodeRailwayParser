@@ -1,6 +1,119 @@
-//Add your names in here
+/**
+ * CS 253 Project 1 - Railway Network Data Structure Manipulation.
+ *
+ * This project is designed to process and manipulate data structures representing railway networks. It involves 
+ * receiving a JSON file containing details of a Railway Network and constructing a manipulable data structure 
+ * from it. The core functionalities include processing the railway network's name, manipulating route objects, 
+ * adding distances to routes, generating summaries of the network or individual routes, searching for specific 
+ * routes by name, calculating the longest route and the total number of unique stations across a route, 
+ * and organizing routes by name or distance in various orders.
+ *
+ * Contributions:
+ * - Andrew Scott (2019): Initial creation of the project.
+ * - Michael Hudson, Dagmawi Negatu (2/25/2023): Further development and introduction of new functionalities that 
+ *   includes more route manipulation and search operations.
+ */
 
-//Add your functions here.
+
+
+/**
+ * Constructs a Railway Network Data Structure from a JSON File
+ *
+ * Given the file name and path of a JSON file, this function reads the file
+ * and constructs an object representing the railway network. The resulting
+ * data structure includes details such as the name of the railway network,
+ * the routes within the network, and the stops along each route.
+ *
+ * @param {string} fileName - The name and path of the JSON file to be processed.
+ * @returns {object} jsonData - An object representing the railway network. This
+ *          object includes the network's name, its routes, and the stops for each route.
+ */
+function readData(fileName){
+
+    var file;   // Initialize file variable
+
+    /* Goes at the top of the node module to import the fs library */
+    let fs = require('fs');
+
+    let jsonData = null;// Variable for JavaScript object
+
+    try{
+    /* Reads the contents of the given file */
+    file = fs.readFileSync(fileName,"utf-8");
+    }
+    catch(error){
+        file = null;
+    }
+
+    /* Checks if file can be initialized */
+    if(file !== null){
+
+        try{
+
+        /* Converts the JSON data string into a JavaScript object */
+        jsonData = JSON.parse(file);
+
+        /* Adds distance property to each route */
+        //addDistances(jsonData);
+        
+        }catch (jsonError){
+            console.log("Error parsing JSON file");
+        }
+    }
+
+    return (jsonData);
+
+}
+/**
+ * Retrieves the Name of a Railway Network
+ *
+ * Extracts and returns the name of a railway network from a provided data structure. 
+ * If the data structure is not properly initialized (i.e., it is null), the function 
+ * will return null, indicating that the operation cannot be performed.
+ *
+ * @param {object} data - The data structure containing details of the railway network.
+ * @returns {string|null} The name of the railway network if available, or null if the 
+ *                        data structure is uninitialized.
+ */
+function getNetworkName(dataStructure) {
+    // Check for uninitialized or null data structure
+    if (dataStructure === null) {
+        // Data structure not initialized, return null
+        return null;
+    }
+
+    // Data structure is initialized, return the railway network name
+    return dataStructure.networkName;
+}
+
+
+
+/**
+ * Retrieves All Routes from a Railway Network Data Structure
+ *
+ * This function extracts and returns an array of route objects from a provided
+ * railway network data structure. If the input data structure is not properly
+ * initialized (i.e., it is null), the function returns an empty array,
+ * indicating that there are no routes to return.
+ *
+ * @param {object} dataStructure - The data structure containing the railway
+ * network information. Expected to have a 'routes' property that is an array
+ * of route objects.
+ * @returns {Array.<Object>} An array of route objects from the railway network.
+ * If the input data structure is null, returns an empty array.
+ */
+function getRoutes(dataStructure) {
+    // Check for uninitialized or null data structure
+    if (dataStructure === null) {
+        // Data structure not initialized; return an empty array
+        return [];
+    }
+
+    // Extract and return the routes from the data structure
+    return dataStructure.routes;
+}
+
+
 
 /**
  * Conduct a range of tests on the functions developed
@@ -93,3 +206,6 @@ if (require.main === module){
 	main("railtrack_uk.json","West Coast Main Line");
 	//main(process.argv[2],process.argv[2]);//uncomment to use command line arguments.
 }
+   
+
+    
