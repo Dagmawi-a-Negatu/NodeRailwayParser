@@ -1,16 +1,20 @@
 /**
  * CS 253 Project 1 - Railway Network Data Structure Manipulation.
  *
- * This project is designed to process and manipulate data structures representing railway networks. It involves 
- * receiving a JSON file containing details of a Railway Network and constructing a manipulable data structure 
- * from it. The core functionalities include processing the railway network's name, manipulating route objects, 
- * adding distances to routes, generating summaries of the network or individual routes, searching for specific 
- * routes by name, calculating the longest route and the total number of unique stations across a route, 
- * and organizing routes by name or distance in various orders.
+ * This project is designed to process and manipulate data structures
+ * representing railway networks. It involves receiving a JSON file containing
+ * details of a Railway Network and constructing a manipulable data structure 
+ * from it. The core functionalities include processing the railway network's
+ * name, manipulating route objects, adding distances to routes, generating
+ * summaries of the network or individual routes, searching for specific 
+ * routes by name, calculating the longest route and the total number of
+ * unique stations across a route, and organizing routes by name or
+ * distance in various orders.
  *
  * Contributions:
  * - Andrew Scott (2019): Initial creation of the project.
- * - Michael Hudson, Dagmawi Negatu (2/25/2023): Further development and introduction of new functionalities that 
+ * - Michael Hudson, Dagmawi Negatu (2/25/2023):
+ *   Further development and introduction of new functionalities that 
  *   includes more route manipulation and search operations.
  */
 
@@ -24,18 +28,15 @@
  * data structure includes details such as the name of the railway network,
  * the routes within the network, and the stops along each route.
  *
- * @param {string} fileName - The name and path of the JSON file to be processed.
- * @returns {object} jsonData - An object representing the railway network. This
- *          object includes the network's name, its routes, and the stops for each route.
+ * @param {string} fileName -
+ * The name and path of the JSON file to be processed.
+ * @returns {object} jsonData - An object representing the railway network.
+ * This object includes the network's name, its routes,
+ * and the stops for each route.
  */
 function readData(fileName){
 
     let data;   // Initialize data variable
-
-    /* Checks if file is uk.json */
-    if(fileName !== 'simpleton_railway.json'){
-        data = null;
-    }
 
     /* Goes at the top of the node module to import the fs library */
     let fs = require('fs');
@@ -73,12 +74,14 @@ function readData(fileName){
  * Access the Name of a Railway Network
  *
  * Returns the name of a railway network from a provided data structure. 
- * If the data structure is not properly initialized (i.e., it is null), the function 
- * will return null.
+ * If the data structure is not properly initialized (i.e., it is null), 
+ * the function will return null.
  *
- * @param {object} data - The data structure containing details of the railway network.
- * @returns {string|null} The name of the railway network if available, or null if the 
- *                        data structure is uninitialized.
+ * @param {object} data -
+ * The data structure containing details of the railway network.
+ * @returns {string|null}
+ * The name of the railway network if available, or null if the 
+ * data structure is uninitialized.
  */
 function getNetworkName(data) {
     // Check for uninitialized or null data structure
