@@ -33,7 +33,7 @@ function readData(fileName){
     let data;   // Initialize data variable
 
     /* Checks if file is uk.json */
-    if(fileName !== 'uk.json'){
+    if(fileName !== 'simpleton_railway.json'){
         data = null;
     }
 
@@ -44,7 +44,7 @@ function readData(fileName){
 
     try{
     /* Reads the contents of the given file */
-    data = fs.readFileSync(process.argv[2],"utf-8");
+    data = fs.readFileSync(fileName,"utf-8");
     }
     catch(error){
         data = null;
@@ -66,6 +66,29 @@ function readData(fileName){
     }
 
     return jsonData;
+}
+
+
+/**
+ * Access the Name of a Railway Network
+ *
+ * Returns the name of a railway network from a provided data structure. 
+ * If the data structure is not properly initialized (i.e., it is null), the function 
+ * will return null.
+ *
+ * @param {object} data - The data structure containing details of the railway network.
+ * @returns {string|null} The name of the railway network if available, or null if the 
+ *                        data structure is uninitialized.
+ */
+function getNetworkName(data) {
+    // Check for uninitialized or null data structure
+    if (data === null) {
+        // Data structure not initialized, return null
+        return null;
+    }
+
+    // Data structure is initialized, return the railway network name
+    return data.networkName;
 }
 
 
@@ -159,6 +182,6 @@ function main (fileName, lineName){
 //Call the main function
 if (require.main === module){
 	
-	main("railtrack_uk.json","West Coast Main Line");
+	main("simpleton_railway.json","West Coast Main Line");
 	//main(process.argv[2],process.argv[2]);//uncomment to use command line arguments.
 }
