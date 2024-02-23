@@ -1,16 +1,20 @@
 /**
  * CS 253 Project 1 - Railway Network Data Structure Manipulation.
  *
- * This project is designed to process and manipulate data structures representing railway networks. It involves 
- * receiving a JSON file containing details of a Railway Network and constructing a manipulable data structure 
- * from it. The core functionalities include processing the railway network's name, manipulating route objects, 
- * adding distances to routes, generating summaries of the network or individual routes, searching for specific 
- * routes by name, calculating the longest route and the total number of unique stations across a route, 
- * and organizing routes by name or distance in various orders.
+ * This project is designed to process and manipulate data structures
+ * representing railway networks. It involves receiving a JSON file containing
+ * details of a Railway Network and constructing a manipulable data structure 
+ * from it. The core functionalities include processing the railway 
+ * network's name, manipulating route objects, adding distances to routes,
+ * generating summaries of the network or individual routes, searching for
+ * specific routes by name, calculating the longest route and the total number
+ * of unique stations across a route, and organizing routes by name or distance
+ * in acsending and descending orders.
  *
  * Contributions:
  * - Andrew Scott (2019): Initial creation of the project.
- * - Michael Hudson, Dagmawi Negatu (2/25/2023): Further development and introduction of new functionalities that 
+ * - Michael Hudson, Dagmawi Negatu (2/25/2023):
+ *   Complete development and introduction of new functionalities that 
  *   includes more route manipulation and search operations.
  */
 
@@ -24,56 +28,50 @@
  * data structure includes details such as the name of the railway network,
  * the routes within the network, and the stops along each route.
  *
- * @param {string} fileName - The name and path of the JSON file to be processed.
- * @returns {object} jsonData - An object representing the railway network. This
- *          object includes the network's name, its routes, and the stops for each route.
+ * @param {string} fileName - 
+ * The name and path of the JSON file to be processed.
+ * @returns {object} jsonData - 
+ * An object representing the railway network.
+ * This object includes the network's name, its routes,
+ * and the stops for each route.
  */
-function readData(fileName){
+function readData(fileName) {
+    // Import the fs (File System) module to work within computer's file system.
+    const fs = require('fs');
 
-    var file;   // Initialize file variable
+    let jsonData = null; // Variable to hold the parsed JavaScript object.
 
-    /* Goes at the top of the node module to import the fs library */
-    let fs = require('fs');
+    try {
+        // Attempt to read the contents of the file.
+        const fileContent = fs.readFileSync(fileName, "utf-8");
 
-    let jsonData = null;// Variable for JavaScript object
-
-    try{
-    /* Reads the contents of the given file */
-    file = fs.readFileSync(fileName,"utf-8");
-    }
-    catch(error){
-        file = null;
-    }
-
-    /* Checks if file can be initialized */
-    if(file !== null){
-
-        try{
-
-        /* Converts the JSON data string into a JavaScript object */
-        jsonData = JSON.parse(file);
-
-        /* Adds distance property to each route */
-        //addDistances(jsonData);
-        
-        }catch (jsonError){
-            console.log("Error parsing JSON file");
+        try {
+            // Attempt to parse the JSON content of the file.
+            jsonData = JSON.parse(fileContent);
+        } catch (jsonError) {
+            // Log an error message if JSON parsing fails.
+            console.error("Error parsing JSON from file:", fileName, jsonError);
         }
+    } catch (fileError) {
+        // Log an error message if reading the file fails.
+        console.error("Error reading file:", fileName, fileError);
     }
 
-    return (jsonData);
-
+    return jsonData;
 }
 /**
- * Retrieves the Name of a Railway Network
+ * Returns the Name of a Railway Network
  *
- * Extracts and returns the name of a railway network from a provided data structure. 
- * If the data structure is not properly initialized (i.e., it is null), the function 
- * will return null, indicating that the operation cannot be performed.
+ * Returns the name of a railway network from a provided data structure. 
+ * If the data structure is not properly initialized (i.e., it is null),
+ * the function will return null,
+ * demonstrartign that the operation cannot be performed.
  *
- * @param {object} data - The data structure containing details of the railway network.
- * @returns {string|null} The name of the railway network if available, or null if the 
- *                        data structure is uninitialized.
+ * @param {object} dataStrucure - 
+ * The data structure containing details of the railway network.
+ * @returns {string|null}
+ * The name of the railway network if available, or null if the 
+ * data structure is uninitialized.
  */
 function getNetworkName(dataStructure) {
     // Check for uninitialized or null data structure
@@ -86,12 +84,40 @@ function getNetworkName(dataStructure) {
     return dataStructure.networkName;
 }
 
+/**
+ * Returns the names of routes from the railway network data structure.
+ * @param {Object} data - 
+ * The railway network data structure.
+ * @returns {string[]|null}
+ * An array of strings containing the names of the routes, 
+ * or null if input is invalid.
+ */
+function getRouteNames(dataStructure){
 
+    // First, check if the input data is null or undefined.
+    if(!dataStructure){
+        return null;
+    }
+
+    // Call the getRoutes function to access the array of route objects
+    let routes = getRoutes(dataStructure);
+
+    let routeNames = [];    // The names of each route
+
+    /* Iterates through each route */
+    for(let i = 0; i < routes.length; i++){
+
+        /* Adds the name of each route */
+        routeNames.push(routes[i].name);
+    }
+    // After all route names have been accessed, return the array of names.
+    return routeNames;
+}
 
 /**
- * Retrieves All Routes from a Railway Network Data Structure
+ * Access All Routes from a Railway Network Data Structure
  *
- * This function extracts and returns an array of route objects from a provided
+ * This functio returns an array of route objects from a provided
  * railway network data structure. If the input data structure is not properly
  * initialized (i.e., it is null), the function returns an empty array,
  * indicating that there are no routes to return.
@@ -112,6 +138,157 @@ function getRoutes(dataStructure) {
     // Extract and return the routes from the data structure
     return dataStructure.routes;
 }
+
+
+
+/**
+ * Formats and returns a string listing each route name on a new line,
+ * separated by commas, from the given railway network data structure.
+ * @param {Object} data - The railway network data structure.
+ * @returns {string|null} A formatted string containing the names of the routes,
+ * or null if input is invalid.
+ */
+function routeNamesToString(dataStructure) {
+  // Checks if the input data is null
+  if (!dataStructure) {
+    return null;
+  }
+
+  // Access route names using the getRouteNames function.
+  const routes = getRouteNames(dataStructure);
+
+  //Joins array of route names into a single string, with name separated by ",\n".
+  const result = routes.join(",\n");
+
+  return result;
+}
+
+
+/**
+ * Finds and returns the route object matching the specified name within
+ * the railway network data structure.
+ * @param {Object} data -
+ * The railway network data structure.
+ * @param {String} routeName - 
+ * The name of the route to search for.
+ * @returns {Object|null}
+ * The corresponding route object with its properties, 
+ * or null if not found or data is invalid.
+ */
+function getRoute(data, routeName) {
+  // Checks if the input data is null or undefined.
+  if (!data) {
+    return null;
+  }
+
+  // Retrieves the routes from the railway network data.
+  const routes = getRoutes(data);
+
+  // Uses the find method to find the first route that matches the routeName.
+  const foundRoute = routes.find(route => route.name === routeName);
+
+  // Returns the found route, or null if no match is found 
+  return foundRoute || null;
+}
+
+
+/**
+ * Constructs a descriptive string for a route, including its name, color,
+ * each stop with distance from the start, and the total route distance.
+ * @param {Object} route - The route object.
+ * @returns {string|null}
+ * A formatted string describing the route, or null if the route is invalid.
+ */
+function routeToString(route) {
+  // Validate the route object
+  if (!route) {
+    return null;
+  }
+
+  // Initialize the result string with the route name and color
+  let result = `ROUTE: ${route.name} (${route.color})\nSTATIONS:\n`;
+
+  // Initialize total distance
+  let distance = 0;
+
+  // Iterate through each stop using a standard for loop
+  for (let i = 0; i < route.stops.length; i++) {
+    let stop = route.stops[i];
+    distance += stop.distanceToPrev; // Accumulate distance
+    result += `${stop.stop} ${stop.stationName} ${distance} miles\n`;
+  }
+
+  // Append the total distance to the result string
+  result += `Total Route Distance: ${distance} miles`;
+
+  return result;
+}
+
+
+/**
+ * Calculates the total distance of a route in miles,
+ * from the first stop to the last.
+ * @param {Object} route - The route object.
+ * @return {number}
+ * The total distance of the route in miles, or 0 if the route is invalid.
+ */
+function routeDistance(route) {
+  // Validate the route object
+  if (!route || !route.stops) {
+    return 0;
+  }
+
+  let totalDistance = 0; // Initialize total distance
+
+  // Iterate through each stop using a for...of loop
+  for (const stop of route.stops) {
+    totalDistance += stop.distanceToNext; // Add distance to total
+  }
+
+  return totalDistance;
+}
+
+
+/**
+ * Generates a summary of all routes within the given railway network data.
+ * For each route, it lists the route name followed by the names of the
+ * first and last stops. If a route has no stops, "N/A" is used to indicate the 
+ * absence of stop information.
+ * @param {Object} data - The railway network data structure 
+ * containing routes and their stops.
+ * @returns {string|null} A string containing the summary of all routes or
+ * null if the input data is invalid.
+ */
+
+function routeSummary(data) {
+
+  // Validate the input data
+  if (!data) {
+    return null;
+  }
+
+  let result = "Routes Summary\n==============\n"; // Header for the summary
+  let routes = getRoutes(data); // Extract routes from the data
+
+  // Iterate through each route to append its summary to the result string
+  for (let route of routes) {
+    // Safely access the first and last stop names
+    let firstStopName = "N/A";
+    let lastStopName = "N/A";
+    if (route.stops.length > 0) {
+      firstStopName = route.stops[0].stationName; // Name of the first stop
+      lastStopName = route.stops[route.stops.length - 1].stationName; // Name of the last stop
+    }
+
+    // Add the name, first stop, last stop, and distance for each route
+    result += `${route.name.padEnd(25, " ")}- ${firstStopName.padEnd(15, " ")} 
+    to ${lastStopName.padEnd(15, " ")} -  ${routeDistance(route)} miles\n`;
+  }
+
+  return result;
+}
+
+
 
 
 
