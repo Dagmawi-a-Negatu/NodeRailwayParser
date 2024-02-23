@@ -36,27 +36,28 @@
  */
 function readData(fileName){
 
-    let data;   // Initialize data variable
+    var file;   // Initialize file variable
 
     /* Goes at the top of the node module to import the fs library */
     let fs = require('fs');
 
-    let jsonData = null;
+    let jsonData = null;// Variable for JavaScript object
 
     try{
     /* Reads the contents of the given file */
-    data = fs.readFileSync(fileName,"utf-8");
+    file = fs.readFileSync(fileName,"utf-8");
     }
     catch(error){
-        data = null;
+        file = null;
     }
+
     /* Checks if file can be initialized */
-    if(data !== null){
+    if(file !== null){
 
         try{
 
         /* Converts the JSON data string into a JavaScript object */
-        jsonData = JSON.parse(data);
+        jsonData = JSON.parse(file);
 
         /* Adds distance property to each route */
         //addDistances(jsonData);
@@ -83,15 +84,15 @@ function readData(fileName){
  * The name of the railway network if available, or null if the 
  * data structure is uninitialized.
  */
-function getNetworkName(data) {
+function getNetworkName(file) {
     // Check for uninitialized or null data structure
-    if (data === null) {
+    if (file === null) {
         // Data structure not initialized, return null
         return null;
     }
 
     // Data structure is initialized, return the railway network name
-    return data.networkName;
+    return file.networkName;
 }
 
 /**
@@ -101,14 +102,14 @@ function getNetworkName(data) {
  * @returns {Array.<Object>} - An array of route objects for the railway
  * network.
  */
-function getRoutes(data){
+function getRoutes(file){
 
     /* Cannot initalize data structure */
-    if(data === null){
+    if(file === null){
         return [];
     }
 
-    let routes = data.routes;   // The routes in the railway network
+    let routes = file.routes;// The routes in the railway network
 
     return routes;
 }
