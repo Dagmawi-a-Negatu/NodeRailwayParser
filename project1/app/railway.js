@@ -94,7 +94,24 @@ function getNetworkName(data) {
     return data.networkName;
 }
 
+/**
+ * Returns an array of route objects when given the railway network data
+ * structure.
+ * @param {Object} data - The railway network data structure.
+ * @returns {Array.<Object>} - An array of route objects for the railway
+ * network.
+ */
+function getRoutes(data){
 
+    /* Cannot initalize data structure */
+    if(data === null){
+        return [];
+    }
+
+    let routes = data.routes;   // The routes in the railway network
+
+    return routes;
+}
 
 
 /**
@@ -112,9 +129,9 @@ function main (fileName, lineName){
    console.log( getNetworkName(data) );
 
    //Test getting routes
-   //console.log("\nTEST=2=GETTING=ROUTES=ARRAY");
-   //console.log("There are " + getRoutes(data).length + "routes on this network");
-   //console.log("The typeof the routes is " + typeof getRoutes(data));
+   console.log("\nTEST=2=GETTING=ROUTES=ARRAY");
+   console.log("There are " + getRoutes(data).length + "routes on this network");
+   console.log("The typeof the routes is " + typeof getRoutes(data));
    
    //Test getting route names
    //console.log("\n===TEST=3=ROUTE=NAMES===");
