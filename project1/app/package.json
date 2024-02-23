@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "construct a data structure from",
+  "main": "Notation (.json) files and process them to perform various functions to provide",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dagmawi-a-Negatu/cs253.git"
+  },
+  "author": "Dagmawi Negatu, Micheal Hudson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dagmawi-a-Negatu/cs253/issues"
+  },
+  "homepage": "https://github.com/Dagmawi-a-Negatu/cs253#readme"
+}
