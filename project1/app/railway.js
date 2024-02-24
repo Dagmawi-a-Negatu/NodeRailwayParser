@@ -48,6 +48,8 @@ function readData(fileName) {
         try {
             // Attempt to parse the JSON content of the file.
             jsonData = JSON.parse(fileContent);
+            //Add distance property to each route
+            addDistances(jsonData);
         } catch (jsonError) {
             // Log an error message if JSON parsing fails.
             console.error("Error parsing JSON from file:", fileName, jsonError);
@@ -281,13 +283,254 @@ function routeSummary(data) {
     }
 
     // Add the name, first stop, last stop, and distance for each route
-    result += `${route.name.padEnd(25, " ")}- ${firstStopName.padEnd(15, " ")} 
-    to ${lastStopName.padEnd(15, " ")} -  ${routeDistance(route)} miles\n`;
+    result += `${route.name.padEnd(25, " ")}- ${firstStopName.padEnd(15, " ")} ` +
+    `to ${lastStopName.padEnd(15, " ")} -  ${routeDistance(route)} miles\n`;
+
   }
 
   return result;
 }
 
+
+/**
+ * Sorts the routes by name within the railway network data structure.
+ *
+ * This function organizes the routes by their names in either ascending or descending
+ * order based on the provided boolean flag. It validates if the input data structure
+ * is initialized. If not, it returns null to indicate failure. Otherwise, it sorts
+ * the routes according to the specified order.
+ *
+ * @param {Object} data - The railway network data structure containing routes.
+ * @param {boolean} asc -
+ *  Determines the sort order: true for ascending, false for descending.
+ * @returns {Array.<Object>|null}
+ * The sorted array of route objects, or null if the input data is invalid.
+ */
+function sortRoutesByName(data, asc) {
+    if (data === null) {
+        console.log("Data structure is not initialized.");
+        return null;
+    }
+
+    let routes = data.routes; // Assuming getRoutes(data) returns data.routes
+
+    // Sorting logic with a more standard approach
+    routes.sort((a, b) => {
+        //uppercase for case-insensitive comparison
+        let nameA = a.name.toUpperCase();
+        let nameB = b.name.toUpperCase();
+
+        // Determine sort order using an if-else structure
+        if (asc) {
+            // Ascending order
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        } else {
+            // Descending order
+            if (nameB < nameA) return -1;
+            if (nameB > nameA) return 1;
+            return 0;
+        }
+    });
+
+    return routes; // return the sorted routes for chaining or further use
+}
+
+
+
+/**
+ * Sorts the routes in the railway network data structure by their length.
+ * The sorting can be performed in either ascending or descending order based
+ * on the 'asc' parameter. This function modifies the original data structure
+ * to reflect the sorted order of routes. It is designed to first validate the
+ * input data structure before attempting the sort operation to ensure stability
+ * and prevent errors.
+ *
+ * @param {Object} data -
+ * The railway network data structure containing an array of routes.
+ * @param {boolean} asc - 
+ * Determines the order of sorting: true for ascending, false for descending.
+ * @returns {void} -
+ * The data structure is modified in place; nothing is returned.
+ */
+function sortRoutesByLength(data, asc){
+
+    /* Cannot initalize data structure */
+    if(data === null)  return null;
+    let routes = getRoutes(data);   // The routes in the railway network
+    /* Sorts the routes */
+    routes.sort((a, b) => {
+        /* Sorts the routes in ascending order */
+        if(asc){
+            /* Compares the distances */
+            if(a.distance < b.distance){
+                return -1;
+            }
+            if(b.distance > a.distance){
+                return 1;
+            }
+            return 0;
+         } else {
+            /* Sorts the routes in descending order */
+             if(b.distance < a.distance){
+                 return -1;
+             }
+             if(a.distance > b.distance){
+                 return 1;
+                 }
+             return 0;
+         }
+    }
+    );
+}
+
+
+
+/**
+ * Adds each route in the railway network data structure by adding a
+ * 'distance' property that represents the calculated distance of the route.
+ *
+ * This function iterates over each route in the provided data structure, calculates
+ * the distance for each route using a the routeDistance function, and
+ * assigns this calculated value as a new property of the route. It checks the
+ * data structure is valid before proceeding to prevent errors.
+ *
+ * @param {Object} data - The railway network data structure containing an array of routes.
+ * @returns {void} - Changes the input data structure in place without returning a value.
+ */
+function addDistances(data) {
+    // Ensure the data structure is initialized and valid
+    if (!data) {
+        console.error("Invalid data structure provided to addDistances.");
+        return;
+    }
+
+    // Iterate over each route using a standard for loop
+    for (let i = 0; i < data.routes.length; i++) {
+        // Calculate the distance for the current route
+        const distance = routeDistance(data.routes[i]);
+
+        // Assign the calculated distance to the route
+        data.routes[i].distance = distance;
+    }
+}
+
+
+
+/**
+ * Returns the route object with the longest distance in miles from start to
+ * end when given the railway network data structure.
+ * @param {Object} data - The railway network data structure.
+ * @returns {Array.<Object>} longestRoute - The longest route in the railway
+ * network.
+ */
+function findLongestRoute(data){
+
+    /* Cannot initalize data structure */
+    if(data === null){
+        return null;
+    }
+
+    let longestRoute = [];      // The longest route to be returned
+
+    let routes = getRoutes(data);   // The routes in the railway network
+
+    /* Iterates through the routes to find the longest route */
+    for(let i = 0; i < routes.length; i++){
+
+        /* If the current routes distance is greater than the last */
+        if((routes[i]).distance > longestRoute){
+
+            /* Sets the current route as the longest route */
+            longestRoute = (routes[i]);
+        }
+    }
+    return longestRoute;
+}
+
+
+
+/**
+ * Calculates the total number of unique stations across all routes in the railway network.
+ * This function avoids counting any station more than once, ensuring an accurate total count.
+ * The railway network data structure must be properly initialized and passed as an argument.
+ *
+ * @param {Object} data - 
+ * The railway network data structure containing routes and their respective stops.
+ * @returns {number} -
+ * The total number of unique stations across all routes.
+ */
+function totalStations(data) {
+    // Validate the input data structure.
+    if (data === null) {
+        console.error("Invalid data structure provided to totalStations.");
+        return 0;
+    }
+
+    // Initialize a Set to store unique station names.
+    let uniqueStations = new Set();
+
+    // Access the routes from the data structure for clarity.
+    let routes = data.routes;
+
+    // Iterate through each route in the railway network.
+    for (let i = 0; i < routes.length; i++) {
+        // Iterate through each stop in the current route.
+        let stops = routes[i].stops;
+        for (let j = 0; j < stops.length; j++) {
+            // Add the station name to the Set of unique stations.
+            uniqueStations.add(stops[j].stationName);
+        }
+    }
+
+    // The total count of unique stations by accessing the size of the Set.
+    return uniqueStations.size;
+}
+
+
+
+function findRoute(data, from, to) {
+    if (data === null) {
+        return "Data is null.";
+    }
+
+    for (let i = 0; i < data.routes.length; i++) {
+        let route = data.routes[i];
+        let fromIndex = -1;
+        let toIndex = -1;
+
+        for (let j = 0; j < route.stops.length; j++) {
+            if (route.stops[j].stationName === from) {
+                fromIndex = j;
+            }
+            if (route.stops[j].stationName === to) {
+                toIndex = j;
+            }
+        }
+
+        if (fromIndex !== -1 && toIndex !== -1) {
+            let distance = calculateDistance(route.stops, fromIndex, toIndex);
+            let stopsCount = Math.abs(toIndex - fromIndex);
+           return `Found: ${route.name}: ${from} to ${to},'+
+           '${stopsCount} stops and ${distance} miles.`;
+        }
+    }
+
+    return "Route not found in this railway network.";
+}
+
+function calculateDistance(stops, fromIndex, toIndex) {
+    let distance = 0;
+    let startIndex = Math.min(fromIndex, toIndex);
+    let endIndex = Math.max(fromIndex, toIndex);
+
+    for (let i = startIndex; i < endIndex; i++) {
+        distance += stops[i].distanceToNext || 0; 
+    }
+
+    return distance;
+}
 
 
 
@@ -380,8 +623,8 @@ function main (fileName, lineName){
 //Call the main function
 if (require.main === module){
 	
-	main("railtrack_uk.json","West Coast Main Line");
-	//main(process.argv[2],process.argv[2]);//uncomment to use command line arguments.
+	//main("railtrack_uk.json","West Coast Main Line");
+	main(process.argv[2],process.argv[2]);//uncomment to use command line arguments.
 }
    
 
