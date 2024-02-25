@@ -4,7 +4,7 @@
  * This project is designed to process and manipulate data structures
  * representing railway networks. It involves receiving a JSON file containing
  * details of a Railway Network and constructing a manipulable data structure 
- * from it. The core functionalities include processing the railway 
+ * from it. The main functionalities include processing the railway 
  * network's name, manipulating route objects, adding distances to routes,
  * generating summaries of the network or individual routes, searching for
  * specific routes by name, calculating the longest route and the total number
@@ -12,10 +12,12 @@
  * in acsending and descending orders.
  *
  * Contributions:
- * - Andrew Scott (2019): Initial creation of the project.
- * - Michael Hudson, Dagmawi Negatu (2/25/2023):
- *   Complete development and introduction of new functionalities that 
- *   includes more route manipulation and search operations.
+ * @author Andrew Scott: Initial creation of the project.
+ * @data 2019
+ * @author Michael Hudson, Dagmawi Negatu
+ * @date (2/25/2023):
+ * Complete development and introduction of new functionalities that 
+ * includes more route manipulation and search operations.
  */
 
 
@@ -137,7 +139,7 @@ function getRoutes(dataStructure) {
         return [];
     }
 
-    // Extract and return the routes from the data structure
+    // Return the routes from the data structure
     return dataStructure.routes;
 }
 
@@ -186,11 +188,21 @@ function getRoute(data, routeName) {
   // Retrieves the routes from the railway network data.
   const routes = getRoutes(data);
 
-  // Uses the find method to find the first route that matches the routeName.
-  const foundRoute = routes.find(route => route.name === routeName);
+  // Find the first route that matches the routeName.
+  let foundRoute = null;
+   /* Iterates through the routes */
+    for(let item of routes){
+
+        /* If the current route is the same as the given route */
+        if(item.name === routeName){
+
+            /* The route is added to be returned */
+            foundRoute = item;
+        }
+    }
 
   // Returns the found route, or null if no match is found 
-  return foundRoute || null;
+  return foundRoute;
 }
 
 
@@ -242,7 +254,7 @@ function routeDistance(route) {
 
   let totalDistance = 0; // Initialize total distance
 
-  // Iterate through each stop using a for...of loop
+  // Iterate through each stop using a for of loop
   for (const stop of route.stops) {
     totalDistance += stop.distanceToNext; // Add distance to total
   }
@@ -389,7 +401,7 @@ function sortRoutesByLength(data, asc){
 
 /**
  * Adds each route in the railway network data structure by adding a
- * 'distance' property that represents the calculated distance of the route.
+ * distance property that represents the calculated distance of the route.
  *
  * This function iterates over each route in the provided data structure, calculates
  * the distance for each route using a the routeDistance function, and
