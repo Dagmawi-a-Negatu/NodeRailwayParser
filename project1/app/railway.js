@@ -636,7 +636,7 @@ function main (fileName, lineName){
 if (require.main === module){
 	
 	//main("railtrack_uk.json","West Coast Main Line");
-	main(process.argv[2],process.argv[2]);//uncomment to use command line arguments.
+	main(process.argv[2],process.argv[3]);//uncomment to use command line arguments.
 }
    
 
