@@ -541,8 +541,8 @@ function findRoute(data, from, to) {
         if (fromIndex !== -1 && toIndex !== -1) {//Checks if we have found our starting and destination stops.
             let distance = calculateDistance(route.stops, fromIndex, toIndex);//Helper function calcuating distance between stops.
             let stopsCount = Math.abs(toIndex - fromIndex);//How many stops been start and destinations stops.
-           result = `Found: ${route.name}: ${from} to ${to},'+
-           '${stopsCount} stops and ${distance} miles.';
+           result = "Found: ${route.name}: ${from} to ${to},"+
+           "${stopsCount} stops and ${distance} miles.";
         }//Assigns the journey between the starting and destination stops.
     }
 
