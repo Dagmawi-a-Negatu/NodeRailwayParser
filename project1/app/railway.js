@@ -522,7 +522,8 @@ function findRoute(data, from, to) {
     if (data === null) { //Validate if the route can be initialized.
         return "Data is null.";
     }
-
+    //We have not found the rout in this railway network system yet	
+    let result = "Route not found in this railway network System from passed two stops.";
     for (let i = 0; i < data.routes.length; i++) {
         let route = data.routes[i];// From data, access each route.
         let fromIndex = -1;// Default that the index of the starting stop not found.
@@ -540,12 +541,12 @@ function findRoute(data, from, to) {
         if (fromIndex !== -1 && toIndex !== -1) {//Checks if we have found our starting and destination stops.
             let distance = calculateDistance(route.stops, fromIndex, toIndex);//Helper function calcuating distance between stops.
             let stopsCount = Math.abs(toIndex - fromIndex);//How many stops been start and destinations stops.
-           return `Found: ${route.name}: ${from} to ${to},'+
-           '${stopsCount} stops and ${distance} miles.`;
-        }//Output to the console the journey between the starting and destination stops.
+           result = `Found: ${route.name}: ${from} to ${to},'+
+           '${stopsCount} stops and ${distance} miles.';
+        }//Assigns the journey between the starting and destination stops.
     }
 
-    return "Route not found in this railway network System from passed two stops.";
+    return (result);
 }
 
 
