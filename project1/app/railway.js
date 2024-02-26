@@ -55,12 +55,12 @@ function readData(fileName) {
         } catch (jsonError) {
             // Log an error message if JSON parsing fails.
             console.log("Error parsing JSON from " + fileName);
-	    exit(0);
+	    process.exit(1);
         }
     } catch (fileError) {
         // Log an error message if reading the file fails.
         console.log("Error loading" + fileName + " from directory");
-        exit(0);
+        process.exit(1);
     }
 
     return jsonData;
