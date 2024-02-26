@@ -661,6 +661,12 @@ function main (fileName, lineName){
 
 //Call the main function
 if (require.main === module){
+
+	// Check if the correct number of arguments is provided (including the node command and script name)
+	if (process.argv.length !== 4) {
+   		console.error('Usage: node <script.js> <file.json> <"Route/Line name">');
+    		process.exit(1);
+	}
 	
 	//main("railtrack_uk.json","West Coast Main Line");
 	main(process.argv[2],process.argv[3]);//uncomment to use command line arguments.
