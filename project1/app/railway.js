@@ -501,50 +501,77 @@ function totalStations(data) {
 }
 
 
+// Extra Credit:  3 Bonus Marks
+/**
+ * This function is designed to identify and return details about a specific
+ * route within a railway network, given the starting and ending stops. It will
+ * retrive the information such as the route's name, the starting and
+ * ending stops' names, the total number of stops in between these two points
+ * (including the destination stop), and the overall distance in miles.
+ * @param {Object} data - Represents the data structure of the railway network.
+ * @param {String} from - The name of the initial stop.
+ * @param {String} to - The name of the final stop.
+ * @returns {String} result - A string detailing the route's name, names of the
+ * initial and final stops, the count of stops from start to finish, and the
+ * total distance in miles.
+ */
 
 function findRoute(data, from, to) {
-    if (data === null) {
+    if (data === null) { //Validate if the route can be initialized.
         return "Data is null.";
     }
 
     for (let i = 0; i < data.routes.length; i++) {
-        let route = data.routes[i];
-        let fromIndex = -1;
-        let toIndex = -1;
+        let route = data.routes[i];// From data, access each route.
+        let fromIndex = -1;// Default that the index of the starting stop not found.
+        let toIndex = -1;//Defualt that index of the desintation stop not found.
 
-        for (let j = 0; j < route.stops.length; j++) {
-            if (route.stops[j].stationName === from) {
-                fromIndex = j;
+        for (let j = 0; j < route.stops.length; j++) {//Go through each stop in each route within railway.
+            if (route.stops[j].stationName === from) {//Checks if the starting stop has been found.
+                fromIndex = j;// Index of starting stop.
             }
-            if (route.stops[j].stationName === to) {
-                toIndex = j;
+            if (route.stops[j].stationName === to) {//Checks if the destination stop has been found.
+                toIndex = j;// Index of desitnation stop
             }
         }
 
-        if (fromIndex !== -1 && toIndex !== -1) {
-            let distance = calculateDistance(route.stops, fromIndex, toIndex);
-            let stopsCount = Math.abs(toIndex - fromIndex);
+        if (fromIndex !== -1 && toIndex !== -1) {//Checks if we have found our starting and destination stops.
+            let distance = calculateDistance(route.stops, fromIndex, toIndex);//Helper function calcuating distance between stops.
+            let stopsCount = Math.abs(toIndex - fromIndex);//How many stops been start and destinations stops.
            return `Found: ${route.name}: ${from} to ${to},'+
            '${stopsCount} stops and ${distance} miles.`;
-        }
+        }//Output to the console the journey between the starting and destination stops.
     }
 
-    return "Route not found in this railway network.";
+    return "Route not found in this railway network System from passed two stops.";
 }
+
+
+/**
+ * Calculates the total distance between two stops in a railway stops array. It sums up
+ * the distances between sequential stops from the start index to the end index.
+ * 
+ * @param {Array} stops - Array of stop objects with distanceToNext property.
+ * @param {Number} fromIndex - Index of the starting stop in the array.
+ * @param {Number} toIndex - Index of the ending stop in the array.
+ * @returns {Number} Total distance between the starting and ending stops.
+ */
+
 
 function calculateDistance(stops, fromIndex, toIndex) {
-    let distance = 0;
-    let startIndex = Math.min(fromIndex, toIndex);
-    let endIndex = Math.max(fromIndex, toIndex);
+    
+    let distance = 0;//Holds the distance between the starting and ending stops
+    let startIndex = Math.min(fromIndex, toIndex);//Validates Starting index
+    let endIndex = Math.max(fromIndex, toIndex);//Validates Ending index
 
     for (let i = startIndex; i < endIndex; i++) {
-        distance += stops[i].distanceToNext || 0; 
+        distance += stops[i].distanceToNext; 
+	//Adds the distance between the two stops
     }
 
+    //Returns the complete distance between the passed indexes	
     return distance;
 }
-
-
 
 
 /**
