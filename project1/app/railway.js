@@ -54,11 +54,13 @@ function readData(fileName) {
             addDistances(jsonData);
         } catch (jsonError) {
             // Log an error message if JSON parsing fails.
-            console.error("Error parsing JSON from file:", fileName, jsonError);
+            console.log("Error parsing JSON from " + fileName);
+	    exit(0);
         }
     } catch (fileError) {
         // Log an error message if reading the file fails.
-        console.error("Error reading file:", fileName, fileError);
+        console.log("Error loading" + fileName + " from directory);
+        exit(0);
     }
 
     return jsonData;
