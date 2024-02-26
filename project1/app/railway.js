@@ -1,3 +1,4 @@
+
 /**
  * CS 253 Project 1 - Railway Network Data Structure Manipulation.
  *
@@ -19,6 +20,8 @@
  * Complete development and introduction of new functionalities that 
  * includes more route manipulation and search operations.
  */
+
+
 
 
 
@@ -65,6 +68,10 @@ function readData(fileName) {
 
     return jsonData;
 }
+
+
+
+
 /**
  * Returns the Name of a Railway Network
  *
@@ -89,6 +96,9 @@ function getNetworkName(dataStructure) {
     // Data structure is initialized, return the railway network name
     return dataStructure.networkName;
 }
+
+
+
 
 /**
  * Returns the names of routes from the railway network data structure.
@@ -120,6 +130,9 @@ function getRouteNames(dataStructure){
     return routeNames;
 }
 
+
+
+
 /**
  * Access All Routes from a Railway Network Data Structure
  *
@@ -147,6 +160,7 @@ function getRoutes(dataStructure) {
 
 
 
+
 /**
  * Formats and returns a string listing each route name on a new line,
  * separated by commas, from the given railway network data structure.
@@ -168,6 +182,8 @@ function routeNamesToString(dataStructure) {
 
   return result;
 }
+
+
 
 
 /**
@@ -208,6 +224,7 @@ function getRoute(data, routeName) {
 }
 
 
+
 /**
  * Constructs a descriptive string for a route, including its name, color,
  * each stop with distance from the start, and the total route distance.
@@ -241,6 +258,7 @@ function routeToString(route) {
 }
 
 
+
 /**
  * Calculates the total distance of a route in miles,
  * from the first stop to the last.
@@ -263,6 +281,7 @@ function routeDistance(route) {
 
   return totalDistance;
 }
+
 
 
 /**
@@ -304,6 +323,7 @@ function routeSummary(data) {
 
   return result;
 }
+
 
 
 /**
@@ -353,13 +373,13 @@ function sortRoutesByName(data, asc) {
 
 
 
+
 /**
  * Sorts the routes in the railway network data structure by their length.
  * The sorting can be performed in either ascending or descending order based
- * on the 'asc' parameter. This function modifies the original data structure
- * to reflect the sorted order of routes. It is designed to first validate the
- * input data structure before attempting the sort operation to ensure stability
- * and prevent errors.
+ * on the asc parameter. This function modifies the original data structure
+ * to have the sorted order of routes. It is designed to first validate the
+ * input data structure before attempting the sort operation.
  *
  * @param {Object} data -
  * The railway network data structure containing an array of routes.
@@ -401,6 +421,7 @@ function sortRoutesByLength(data, asc){
 
 
 
+
 /**
  * Adds each route in the railway network data structure by adding a
  * distance property that represents the calculated distance of the route.
@@ -414,7 +435,7 @@ function sortRoutesByLength(data, asc){
  * @returns {void} - Changes the input data structure in place without returning a value.
  */
 function addDistances(data) {
-    // Ensure the data structure is initialized and valid
+    // The data structure is initialized and valid
     if (!data) {
         console.error("Invalid data structure provided to addDistances.");
         return;
@@ -429,6 +450,7 @@ function addDistances(data) {
         data.routes[i].distance = distance;
     }
 }
+
 
 
 
@@ -462,6 +484,7 @@ function findLongestRoute(data){
     }
     return longestRoute;
 }
+
 
 
 
@@ -501,6 +524,7 @@ function totalStations(data) {
     // The total count of unique stations by accessing the size of the Set.
     return uniqueStations.size;
 }
+
 
 
 // Extra Credit:  3 Bonus Marks
@@ -561,7 +585,6 @@ function findRoute(data, from, to) {
  * @returns {Number} Total distance between the starting and ending stops.
  */
 
-
 function calculateDistance(stops, fromIndex, toIndex) {
     
     let distance = 0;//Holds the distance between the starting and ending stops
@@ -576,6 +599,7 @@ function calculateDistance(stops, fromIndex, toIndex) {
     //Returns the complete distance between the passed indexes	
     return distance;
 }
+
 
 
 /**
@@ -662,6 +686,7 @@ function main (fileName, lineName){
     console.log(">>END>>"+ str);
 
 }//end main
+
 
 //Call the main function
 if (require.main === module){
