@@ -59,7 +59,7 @@ function readData(fileName) {
         }
     } catch (fileError) {
         // Log an error message if reading the file fails.
-        console.log("Error loading" + fileName + " from directory);
+        console.log("Error loading" + fileName + " from directory");
         exit(0);
     }
 
