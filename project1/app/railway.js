@@ -637,8 +637,7 @@ if (require.main === module){
 	
 	//main("railtrack_uk.json","West Coast Main Line");
 	main(process.argv[2],process.argv[3]);//uncomment to use command line arguments.
-	console.log('JSON File Path:', process.argv[2]);
-	console.log('Railway Line Name:', process.argv[3]);
+	
 }
    
 
