@@ -18,6 +18,7 @@ To run the program, you will need Node.js installed on your system.
 Use the following command to execute the program, specifying the data file and the railway line you wish to test:
 
 ...bash 
+
 node railway.js simpleton_railway.json Simpleton
 
 Replace simpleton_railway.json with the name of your JSON data file and
