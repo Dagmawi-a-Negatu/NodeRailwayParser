@@ -1,4 +1,4 @@
-# Contact Sorting Program README
+# Data Structure for railway networks Program README
 Author: Dagmawi Negatu and Michael Hudson
 Date of submission: 26 February, 2024
 CS 253 Project One: Data Structure for railway networks.
@@ -16,8 +16,6 @@ This is a JavaScript language Node runtime application.
 
 To run the program, you will need Node.js installed on your system.
 Use the following command to execute the program, specifying the data file and the railway line you wish to test:
-
-...bash 
 
 node railway.js simpleton_railway.json Simpleton
 
